@@ -16,6 +16,15 @@ pipeline {
             }
         }
 
+
+        stage('Validar entorno') {
+            steps {
+                bat 'java -version'
+                bat '.\\serenity-tests\\gradlew.bat --version'
+                bat '"%PYTHON_EXE%" --version'
+                bat 'where git'
+            }
+        }
         stage('Preparacion Serenity') {
             steps {
                 dir('serenity-tests') {
@@ -52,6 +61,13 @@ pipeline {
                         bat '.\\.venv\\Scripts\\python -m pytest'
                     }
                 }
+            }
+        }
+        stage('Validar reportes') {
+            steps {
+                bat 'if exist serenity-tests\\target\\site\\serenity\\index.html (echo Reporte Serenity encontrado) else (echo Reporte Serenity no encontrado)'
+                bat 'if exist playwright-tests\\reports\\playwright-report.html (echo Reporte Playwright encontrado) else (echo Reporte Playwright no encontrado)'
+                bat 'if exist playwright-tests\\reports\\junit-playwright.xml (echo JUnit Playwright encontrado) else (echo JUnit Playwright no encontrado)'
             }
         }
     }
