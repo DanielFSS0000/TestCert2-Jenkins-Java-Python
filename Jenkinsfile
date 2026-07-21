@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON_EXE = 'C:\\Users\\danie\\AppData\\Local\\Python\\bin\\python.exe'
+    }
+
     options {
         timestamps()
     }
@@ -33,9 +37,9 @@ pipeline {
         stage('Preparacion Python y Playwright') {
             steps {
                 dir('playwright-tests') {
-                    bat 'python -m venv .venv'
+                    bat '"%PYTHON_EXE%" -m venv .venv'
                     bat '.\\.venv\\Scripts\\python -m pip install --upgrade pip'
-                    bat '.\\.venv\\Scripts\\pip install -r requirements.txt'
+                    bat '.\\.venv\\Scripts\\python -m pip install -r requirements.txt'
                     bat '.\\.venv\\Scripts\\python -m playwright install chromium'
                 }
             }

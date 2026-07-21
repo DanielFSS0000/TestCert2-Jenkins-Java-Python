@@ -40,7 +40,9 @@ public class CompletarCheckout implements Task {
                 Click.on(CheckoutPage.CONTINUE_BUTTON),
                 Open.url("https://www.saucedemo.com/checkout-step-two.html"),
                 WaitUntil.the(CheckoutPage.FINISH_BUTTON, isVisible()).forNoMoreThan(10).seconds(),
-                Click.on(CheckoutPage.FINISH_BUTTON)
+                Click.on(CheckoutPage.FINISH_BUTTON),
+                Open.url("https://www.saucedemo.com/checkout-complete.html"),
+                WaitUntil.the(CheckoutPage.COMPLETE_HEADER, isVisible()).forNoMoreThan(10).seconds()
         );
     }
 }
